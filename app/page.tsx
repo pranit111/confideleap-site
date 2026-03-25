@@ -4,10 +4,13 @@ import { IconType } from "react-icons";
 import { FaFacebookF, FaInstagram, FaLinkedinIn, FaYoutube } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
-import { FiBarChart2, FiFileText, FiMic, FiTarget, FiTrendingUp } from "react-icons/fi";
+
 import { getAllServices, getFeaturedPosts, getAllClients } from "../lib/content";
 import siteData from "../content/site.json";
 import { GetStartedButton } from "../components/ui/get-started-button";
+import { RippleButton } from "../components/ui/multi-type-ripple-buttons";
+import ScrollStack, { ScrollStackItem } from "../components/ScrollStack";
+import { ServiceCard } from "../components/ServiceCard";
 
 export const metadata: Metadata = {
   title: "Top Investor Relations Advisor | ConfideLeap",
@@ -28,13 +31,54 @@ function SocialIcon({ Icon, iconClass }: Readonly<{ Icon: IconType; iconClass: s
   return <Icon aria-hidden="true" className={`e-font-icon-svg ${iconClass}`} size={14} />;
 }
 
-const serviceIconBySlug: Record<string, IconType> = {
-  "investor-relations": FiTrendingUp,
-  "digital-marketing": FiTarget,
-  "public-relations": FiBarChart2,
-  "annual-report": FiFileText,
-  podcast: FiMic,
+const serviceIconBySlug: Record<string, string> = {
+  "investor-relations": "trending-up",
+  "digital-marketing": "target",
+  "public-relations": "bar-chart-2",
+  "annual-report": "file-text",
+  podcast: "mic",
 };
+
+const serviceColorBySlug: Record<string, { bg: string; accent: string; accentLight: string; text: string; border: string }> = {
+  "investor-relations": {
+    bg: "linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #4f46e5 100%)",
+    accent: "#60a5fa",
+    accentLight: "#93c5fd",
+    text: "#ffffff",
+    border: "rgba(96,165,250,0.3)"
+  },
+  "digital-marketing": {
+    bg: "linear-gradient(135deg, #7c2d12 0%, #a855f7 50%, #ec4899 100%)",
+    accent: "#f472b6",
+    accentLight: "#fbcfe8",
+    text: "#ffffff",
+    border: "rgba(244,114,182,0.3)"
+  },
+  "public-relations": {
+    bg: "linear-gradient(135deg, #065f46 0%, #10b981 50%, #14b8a6 100%)",
+    accent: "#6ee7b7",
+    accentLight: "#a7f3d0",
+    text: "#ffffff",
+    border: "rgba(110,231,183,0.3)"
+  },
+  "annual-report": {
+    bg: "linear-gradient(135deg, #92400e 0%, #f59e0b 50%, #f97316 100%)",
+    accent: "#fbbf24",
+    accentLight: "#fde68a",
+    text: "#ffffff",
+    border: "rgba(251,191,36,0.3)"
+  },
+  podcast: {
+    bg: "linear-gradient(135deg, #0e7490 0%, #06b6d4 50%, #0891b2 100%)",
+    accent: "#22d3ee",
+    accentLight: "#cffafe",
+    text: "#ffffff",
+    border: "rgba(34,211,238,0.3)"
+  }
+};
+
+const whiteRippleButtonClass =
+  "rounded-full border border-[rgba(14,165,198,0.35)] bg-white text-[#0e5d74] text-[0.95rem] font-semibold leading-[1.2] shadow-[0_8px_24px_rgba(0,0,0,0.16)] transition-all duration-300 hover:-translate-y-0.5 hover:text-[#0a3f4f]";
 
 export default async function HomePage() {
   const [services, featuredPosts, clients] = await Promise.all([
@@ -191,71 +235,73 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="section" style={{ background: "#ffffff" }}>
+      <section className="section" style={{ background: "#0a1f2e" }}>
         <div className="container">
           <div style={{ textAlign: "center", marginBottom: "50px" }}>
             <div className="badge" style={{ margin: "0 auto 16px" }}>What We Do</div>
-            <h2 style={{ fontSize: "clamp(1.8rem, 4vw, 3rem)", fontWeight: 800, marginBottom: "16px" }}>
+            <h2 style={{ fontSize: "clamp(1.8rem, 4vw, 3rem)", fontWeight: 800, marginBottom: "16px", color: "#ffffff" }}>
               Advisory Services That Help You <span className="gradient-text">Grow With Confidence</span>
             </h2>
-            <p style={{ color: "#435f68", fontSize: "1.05rem", maxWidth: "640px", margin: "0 auto" }}>
+            <p style={{ color: "#a8c5d1", fontSize: "1.05rem", maxWidth: "640px", margin: "0 auto" }}>
               Investor relations, public relations, digital marketing, annual reports, and podcast solutions delivered with one strategic voice.
             </p>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "18px" }}>
-            {services.map((service) => (
-              <Link
-                key={service.slug}
-                href={`/services/${service.slug}`}
-                className="card-hover"
-                style={{
-                  display: "block",
-                  background: "#fbfefe",
-                  border: "1px solid rgba(18, 52, 63, 0.14)",
-                  borderRadius: "14px",
-                  padding: "22px",
-                  textDecoration: "none",
-                }}
-              >
-                <div
-                  style={{
-                    width: "38px",
-                    height: "38px",
-                    borderRadius: "10px",
-                    border: "1px solid rgba(14, 165, 198, 0.24)",
-                    background: "rgba(14, 165, 198, 0.1)",
-                    color: "#0b7f9f",
-                    display: "inline-flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    marginBottom: "12px",
-                  }}
-                >
-                  {(() => {
-                    const Icon = serviceIconBySlug[service.slug] ?? FiTrendingUp;
-                    return <Icon size={18} aria-hidden="true" />;
-                  })()}
-                </div>
-                <h3 style={{ fontWeight: 700, fontSize: "1.04rem", marginBottom: "8px", color: "#163841" }}>{service.title}</h3>
-                <p style={{ color: "#547079", fontSize: "0.92rem", lineHeight: 1.6 }}>{service.subtitle}</p>
+          <div style={{ maxWidth: "1400px", margin: "0 auto", width: "100%", paddingLeft: "2rem", paddingRight: "2rem" }}>
+            <ScrollStack
+              className="what-we-do-stack"
+              itemDistance={120}
+              itemScale={0.03}
+              itemStackDistance={25}
+              stackPosition="25%"
+              scaleEndPosition="8%"
+              baseScale={0.88}
+              scaleDuration={0.5}
+              useWindowScroll
+            >
+              {services.map((service) => {
+                const iconName = serviceIconBySlug[service.slug] ?? "trending-up";
+                const colors = serviceColorBySlug[service.slug] || serviceColorBySlug["investor-relations"];
+                return (
+                  <ScrollStackItem key={service.slug} itemClassName="what-we-do-stack-card">
+                    <ServiceCard
+                      slug={service.slug}
+                      title={service.title}
+                      subtitle={service.subtitle}
+                      description={service.description}
+                      iconName={iconName}
+                      colors={colors}
+                    />
+                  </ScrollStackItem>
+                );
+              })}
+            </ScrollStack>
+          </div>
+          <div style={{ marginTop: "28px", textAlign: "center" }}>
+            <RippleButton variant="hover" hoverRippleColor="#0ea5c6" className={whiteRippleButtonClass}>
+              <Link href="/services" style={{ display: "flex", alignItems: "center", gap: "8px", textDecoration: "none", color: "inherit", padding: "10px 20px" }}>
+                View All Services
               </Link>
-            ))}
+            </RippleButton>
           </div>
         </div>
       </section>
 
-      <section className="section" style={{ background: "#f6fafb" }}>
+      <section className="section" style={{ background: "#051319" }}>
         <div className="container">
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "54px", alignItems: "center" }}>
             <div>
               <div className="badge" style={{ marginBottom: "16px" }}>Why ConfideLeap</div>
-              <h2 style={{ fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)", fontWeight: 800, marginBottom: "20px" }}>
+              <h2 style={{ fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)", fontWeight: 800, marginBottom: "20px", color: "#ffffff" }}>
                 Expert Partners in Investor Relations, Public Relations & <span className="gradient-text">Digital Growth</span>
               </h2>
-              <p style={{ color: "#405b63", lineHeight: 1.8, marginBottom: "32px" }}>
+              <p style={{ color: "#a8c5d1", lineHeight: 1.8, marginBottom: "32px" }}>
                 Great investor relations isn&apos;t just about reporting numbers — it&apos;s about crafting a compelling story, building lasting relationships, and positioning your company for long-term success.
               </p>
-              <Link href="/about" className="btn-primary">Learn More About Us</Link>
+              <RippleButton variant="hover" hoverRippleColor="#0ea5c6" className={whiteRippleButtonClass}>
+                <Link href="/about" style={{ display: "flex", alignItems: "center", gap: "8px", textDecoration: "none", color: "inherit", padding: "10px 20px" }}>
+                  Learn More About Us
+                </Link>
+              </RippleButton>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
               {[
@@ -264,11 +310,11 @@ export default async function HomePage() {
                 { title: "Digital Marketing Advisory", desc: "Translate your market story into measurable campaigns and digital momentum." },
                 { title: "Annual Report & Podcast Solutions", desc: "Deliver polished reports and audio content that improve communication depth." },
               ].map((item) => (
-                <div key={item.title} className="card-hover-border" style={{ display: "flex", gap: "14px", alignItems: "flex-start", padding: "18px", borderRadius: "12px", background: "#ffffff", border: "1px solid rgba(18, 52, 63, 0.12)" }}>
+                <div key={item.title} className="card-hover-border" style={{ display: "flex", gap: "14px", alignItems: "flex-start", padding: "18px", borderRadius: "12px", background: "rgba(30, 70, 85, 0.3)", border: "1px solid rgba(14, 165, 198, 0.2)" }}>
                   <span style={{ width: "9px", height: "9px", borderRadius: "999px", marginTop: "9px", background: "#11a9c7", flexShrink: 0 }} />
                   <div>
-                    <h4 style={{ fontWeight: 700, marginBottom: "5px", fontSize: "0.98rem", color: "#15363f" }}>{item.title}</h4>
-                    <p style={{ color: "#597079", fontSize: "0.88rem", lineHeight: 1.6 }}>{item.desc}</p>
+                    <h4 style={{ fontWeight: 700, marginBottom: "5px", fontSize: "0.98rem", color: "#ffffff" }}>{item.title}</h4>
+                    <p style={{ color: "#a8c5d1", fontSize: "0.88rem", lineHeight: 1.6 }}>{item.desc}</p>
                   </div>
                 </div>
               ))}
@@ -277,55 +323,63 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="section-sm" style={{ background: "#ffffff", overflow: "hidden" }}>
+      <section className="section-sm" style={{ background: "#051319", overflow: "hidden" }}>
         <div className="container" style={{ textAlign: "center", marginBottom: "40px" }}>
           <div className="badge" style={{ margin: "0 auto 16px" }}>Our Clientele</div>
-          <h2 style={{ fontSize: "clamp(1.6rem, 3vw, 2.4rem)", fontWeight: 800, marginBottom: "12px" }}>
+          <h2 style={{ fontSize: "clamp(1.6rem, 3vw, 2.4rem)", fontWeight: 800, marginBottom: "12px", color: "#ffffff" }}>
             Trusted by <span className="gradient-text">{clients.length}+ Companies</span>
           </h2>
-          <p style={{ color: "#46616a" }}>Across pharmaceuticals, infrastructure, energy, fintech, and more.</p>
+          <p style={{ color: "#a8c5d1" }}>Across pharmaceuticals, infrastructure, energy, fintech, and more.</p>
         </div>
         <div style={{ position: "relative", overflow: "hidden" }}>
           <div style={{ display: "flex", gap: "16px", animation: "marquee 30s linear infinite", width: "max-content" }}>
             {[...clients, ...clients].map((client, i) => (
-              <div key={`${client.slug}-${i}`} style={{ padding: "12px 20px", background: "#f6fbfc", border: "1px solid rgba(18, 52, 63, 0.12)", borderRadius: "100px", whiteSpace: "nowrap", fontSize: "0.85rem", fontWeight: 500, color: "#49636c" }}>
+              <div key={`${client.slug}-${i}`} style={{ padding: "12px 20px", background: "rgba(30, 70, 85, 0.4)", border: "1px solid rgba(14, 165, 198, 0.2)", borderRadius: "100px", whiteSpace: "nowrap", fontSize: "0.85rem", fontWeight: 500, color: "#a8c5d1" }}>
                 {client.name}
               </div>
             ))}
           </div>
-          <div style={{ position: "absolute", top: 0, left: 0, bottom: 0, width: "80px", background: "linear-gradient(90deg, #ffffff, transparent)", pointerEvents: "none" }} />
-          <div style={{ position: "absolute", top: 0, right: 0, bottom: 0, width: "80px", background: "linear-gradient(-90deg, #ffffff, transparent)", pointerEvents: "none" }} />
+          <div style={{ position: "absolute", top: 0, left: 0, bottom: 0, width: "80px", background: "linear-gradient(90deg, #051319, transparent)", pointerEvents: "none" }} />
+          <div style={{ position: "absolute", top: 0, right: 0, bottom: 0, width: "80px", background: "linear-gradient(-90deg, #051319, transparent)", pointerEvents: "none" }} />
         </div>
         <div style={{ textAlign: "center", marginTop: "32px" }}>
-          <Link href="/clients" className="btn-outline">View All Clients</Link>
+          <RippleButton variant="hover" hoverRippleColor="#0ea5c6" className={whiteRippleButtonClass}>
+            <Link href="/clients" style={{ display: "flex", alignItems: "center", gap: "8px", textDecoration: "none", color: "inherit", padding: "10px 20px", lineHeight: 1.2 }}>
+              View All Clients
+            </Link>
+          </RippleButton>
         </div>
         <style>{`@keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }`}</style>
       </section>
 
-      <section className="section" style={{ background: "#f5f9fa" }}>
+      <section className="section" style={{ background: "#0a1f2e" }}>
         <div className="container">
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "48px", flexWrap: "wrap", gap: "16px" }}>
             <div>
               <div className="badge" style={{ marginBottom: "12px" }}>Latest Insights</div>
-              <h2 style={{ fontSize: "clamp(1.6rem, 3vw, 2.4rem)", fontWeight: 800 }}>From the <span className="gradient-text">ConfideLeap Blog</span></h2>
+              <h2 style={{ fontSize: "clamp(1.6rem, 3vw, 2.4rem)", fontWeight: 800, color: "#ffffff" }}>From the <span className="gradient-text">ConfideLeap Blog</span></h2>
             </div>
-            <Link href="/blog" className="btn-outline">View All Articles</Link>
+            <RippleButton variant="hover" hoverRippleColor="#0ea5c6" className={whiteRippleButtonClass}>
+              <Link href="/blog" style={{ display: "flex", alignItems: "center", gap: "10px", textDecoration: "none", color: "inherit", padding: "10px 20px", lineHeight: 1.2 }}>
+                View All Articles
+              </Link>
+            </RippleButton>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "24px" }}>
             {featuredPosts.map((post) => (
               <Link key={post.slug} href={`/blog/${post.slug}`} className="card-hover"
-                style={{ display: "flex", flexDirection: "column", background: "#ffffff", border: "1px solid rgba(18, 52, 63, 0.12)", borderRadius: "16px", overflow: "hidden", textDecoration: "none" }}
+                style={{ display: "flex", flexDirection: "column", background: "rgba(30, 70, 85, 0.3)", border: "1px solid rgba(14, 165, 198, 0.2)", borderRadius: "16px", overflow: "hidden", textDecoration: "none" }}
               >
                 <div style={{ height: "4px", background: "var(--accent-gradient)" }} />
                 <div style={{ padding: "24px", flex: 1, display: "flex", flexDirection: "column" }}>
                   <div style={{ marginBottom: "12px" }}>
-                    <span style={{ fontSize: "0.72rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", color: "#087f9e", background: "rgba(14,165,198,0.1)", padding: "4px 10px", borderRadius: "100px" }}>{post.categoryLabel}</span>
+                    <span style={{ fontSize: "0.72rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", color: "#0ea5c6", background: "rgba(14,165,198,0.15)", padding: "4px 10px", borderRadius: "100px" }}>{post.categoryLabel}</span>
                   </div>
-                  <h3 style={{ fontWeight: 700, fontSize: "1.05rem", lineHeight: 1.4, marginBottom: "12px", color: "#163a43", flex: 1 }}>{post.title}</h3>
-                  <p style={{ color: "#5a757d", fontSize: "0.85rem", lineHeight: 1.65, marginBottom: "20px" }}>{post.excerpt.slice(0, 120)}...</p>
+                  <h3 style={{ fontWeight: 700, fontSize: "1.05rem", lineHeight: 1.4, marginBottom: "12px", color: "#ffffff", flex: 1 }}>{post.title}</h3>
+                  <p style={{ color: "#8fa8b5", fontSize: "0.85rem", lineHeight: 1.65, marginBottom: "20px" }}>{post.excerpt.slice(0, 120)}...</p>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <span style={{ fontSize: "0.78rem", color: "#657d85" }}>{new Date(post.date).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}</span>
-                    <span style={{ fontSize: "0.82rem", fontWeight: 600, color: "#0a839f", display: "flex", alignItems: "center", gap: "4px" }}>
+                    <span style={{ fontSize: "0.78rem", color: "#6b8995" }}>{new Date(post.date).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}</span>
+                    <span style={{ fontSize: "0.82rem", fontWeight: 600, color: "#0ea5c6", display: "flex", alignItems: "center", gap: "4px" }}>
                       Read More <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
                     </span>
                   </div>
@@ -336,19 +390,21 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="section-sm" style={{ background: "#ffffff" }}>
+      <section className="section-sm" style={{ background: "#0a1f2e" }}>
         <div className="container" style={{ textAlign: "center" }}>
-          <h2 style={{ fontSize: "clamp(1.6rem, 3.5vw, 2.5rem)", fontWeight: 800, marginBottom: "16px" }}>
+          <h2 style={{ fontSize: "clamp(1.6rem, 3.5vw, 2.5rem)", fontWeight: 800, marginBottom: "16px", color: "#ffffff" }}>
             Ready to <span className="gradient-text">Elevate Your Financial Potential?</span>
           </h2>
-          <p style={{ color: "#4c656d", maxWidth: "540px", margin: "0 auto 32px", lineHeight: 1.75 }}>
+          <p style={{ color: "#a8c5d1", maxWidth: "540px", margin: "0 auto 32px", lineHeight: 1.75 }}>
             Reach out today and let&apos;s build a strategy tailored to your business goals.
           </p>
           <div style={{ display: "flex", gap: "16px", justifyContent: "center", flexWrap: "wrap" }}>
-            <a href={`tel:${siteData.phone}`} className="btn-outline">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.09 12 19.79 19.79 0 0 1 1 3.17 2 2 0 0 1 3 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 8.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" /></svg>
-              {siteData.phone}
-            </a>
+            <RippleButton variant="hover" hoverRippleColor="#0ea5c6" className={whiteRippleButtonClass}>
+              <a href={`tel:${siteData.phone}`} style={{ display: "inline-flex", alignItems: "center", gap: "8px", textDecoration: "none", color: "inherit", padding: "10px 20px" }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.09 12 19.79 19.79 0 0 1 1 3.17 2 2 0 0 1 3 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 8.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" /></svg>
+                {siteData.phone}
+              </a>
+            </RippleButton>
             <Link href="/contact" className="btn-primary">Send Us a Message</Link>
           </div>
         </div>

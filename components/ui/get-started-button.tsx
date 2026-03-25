@@ -22,10 +22,10 @@ export function GetStartedButton({ label = "Talk to an Expert", href, className 
         className,
       )}
     >
-      <span className="pr-6 transition-opacity duration-500 group-hover:opacity-0">
+      <span className="transition-opacity duration-500 group-hover:opacity-0">
         {label}
       </span>
-      <i className="absolute right-1 top-1 bottom-1 rounded-sm z-10 grid w-10 place-items-center transition-all duration-500 bg-[rgba(14,165,198,0.14)] text-[var(--accent-secondary)] group-hover:bg-[rgba(255,255,255,0.2)] group-hover:text-white group-active:scale-95">
+      <i className="absolute inset-y-1 right-1 rounded-sm z-10 grid w-10 place-items-center transition-all duration-500 bg-[rgba(14,165,198,0.14)] text-[var(--accent-secondary)] group-hover:w-16 group-hover:bg-[rgba(255,255,255,0.2)] group-hover:text-white group-hover:left-1/2 group-hover:-translate-x-1/2 group-hover:right-auto group-active:scale-95">
         <ChevronRight size={16} strokeWidth={2} aria-hidden="true" />
       </i>
     </button>

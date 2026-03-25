@@ -233,15 +233,26 @@ img, video {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 6px 14px;
-  background: rgba(14, 165, 198, 0.12);
-  border: 1px solid rgba(14, 165, 198, 0.34);
+  padding: 8px 16px;
+  background: #ffffff;
+  border: 1.5px solid rgba(14, 165, 198, 0.3);
   border-radius: 100px;
   font-size: 0.78rem;
   font-weight: 600;
-  color: #12343f;
+  color: var(--accent-secondary);
   letter-spacing: 0.05em;
   text-transform: uppercase;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.badge:hover {
+  background: rgba(14, 165, 198, 0.1);
+  border-color: var(--accent-secondary);
+  box-shadow: 0 0 24px rgba(14, 165, 198, 0.2);
+  transform: translateY(-2px);
 }
 
 .gradient-border {
@@ -439,11 +450,40 @@ img, video {
   transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1), border-color 200ms ease, background-color 200ms ease, color 200ms ease;
 }
 
+.social-rail a .e-font-icon-svg {
+  transition: color 200ms ease;
+}
+
 .social-rail a:hover {
   color: #3f555d;
   border-color: rgba(14, 165, 198, 0.5);
   background: #ffffff;
+  filter: grayscale(0);
   transform: scale(1.1);
+}
+
+.social-rail a:hover .e-fab-facebook-f {
+  color: #1877f2;
+}
+
+.social-rail a:hover .e-fab-x-twitter {
+  color: #111111;
+}
+
+.social-rail a:hover .e-fab-instagram {
+  color: #e1306c;
+}
+
+.social-rail a:hover .e-fab-linkedin-in {
+  color: #0a66c2;
+}
+
+.social-rail a:hover .e-fas-envelope {
+  color: #ea4335;
+}
+
+.social-rail a:hover .e-fab-youtube {
+  color: #ff0000;
 }
 
 .hero-art {

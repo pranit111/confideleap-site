@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import siteData from "../../content/site.json";
 import TeamPhoto from "../../components/TeamPhoto";
+import { WhyChooseUsCards } from "../../components/WhyChooseUsCards";
+import OurHistorySection from "../../components/ui/stack-feature-section";
 
 export const metadata: Metadata = {
   title: "About Us | Best Investor Relations Advisory Firm | ConfideLeap",
@@ -138,6 +140,20 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* ── Why Choose Us ────────────────────────────────────────────────── */}
+      <section className="section" style={{ background: "#f5f7f8" }}>
+        <div className="container">
+          <div style={{ textAlign: "center", marginBottom: "52px" }}>
+            <span style={{ fontSize: "0.72rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.12em", color: "#0ea5c6", display: "block", marginBottom: "10px" }}>Why Choose Us</span>
+            <h2 style={{ fontFamily: "Outfit, sans-serif", fontWeight: 900, fontSize: "clamp(1.7rem, 3.5vw, 2.6rem)", letterSpacing: "-0.03em", color: "#0e2530" }}>
+              Your Trusted Advisor for<br />Investor Relations Success
+            </h2>
+          </div>
+
+          <WhyChooseUsCards pillars={pillars} />
+        </div>
+      </section>
+
       {/* ── About the Company ────────────────────────────────────────────── */}
       <section className="section" style={{ background: "#ffffff" }}>
         <div className="container">
@@ -188,68 +204,9 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── Why Choose Us ────────────────────────────────────────────────── */}
-      <section className="section" style={{ background: "#f5f7f8" }}>
-        <div className="container">
-          <div style={{ textAlign: "center", marginBottom: "52px" }}>
-            <span style={{ fontSize: "0.72rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.12em", color: "#0ea5c6", display: "block", marginBottom: "10px" }}>Why Choose Us</span>
-            <h2 style={{ fontFamily: "Outfit, sans-serif", fontWeight: 900, fontSize: "clamp(1.7rem, 3.5vw, 2.6rem)", letterSpacing: "-0.03em", color: "#0e2530" }}>
-              Your Trusted Advisor for<br />Investor Relations Success
-            </h2>
-          </div>
-
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "16px" }}>
-            {pillars.map((p, i) => (
-              <div
-                key={p.title}
-                className="bento-card reveal"
-                style={i === 0 ? { background: "linear-gradient(145deg, #071218, #0d2532)", borderColor: "transparent" } : {}}
-              >
-                <div style={{ width: "48px", height: "48px", borderRadius: "14px", background: i === 0 ? "rgba(14,165,198,0.15)" : "rgba(14,165,198,0.1)", border: i === 0 ? "1px solid rgba(14,165,198,0.3)" : "1px solid rgba(14,165,198,0.22)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "18px", color: i === 0 ? "#7dd9ee" : "#0ea5c6" }}>
-                  {p.icon}
-                </div>
-                <h3 style={{ fontFamily: "Outfit, sans-serif", fontWeight: 800, fontSize: "1.05rem", marginBottom: "10px", color: i === 0 ? "#f0f8fa" : "#0e2530" }}>{p.title}</h3>
-                <p style={{ fontSize: "0.875rem", lineHeight: 1.7, color: i === 0 ? "rgba(200,230,240,0.78)" : "#567079" }}>{p.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ── Industry Experience ───────────────────────────────────────────── */}
-      <section className="section" style={{ background: "#ffffff" }}>
-        <div className="container">
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "52px", alignItems: "center" }}>
-            <div className="reveal-left">
-              <span style={{ fontSize: "0.72rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.12em", color: "#0ea5c6", display: "block", marginBottom: "12px" }}>Our History</span>
-              <h2 style={{ fontFamily: "Outfit, sans-serif", fontWeight: 900, fontSize: "clamp(1.7rem, 3.5vw, 2.6rem)", letterSpacing: "-0.03em", color: "#0e2530", marginBottom: "20px", lineHeight: 1.15 }}>
-                Industry Experience
-              </h2>
-              <p style={{ color: "#567079", lineHeight: 1.85, fontSize: "0.97rem", marginBottom: "32px" }}>
-                For two decades, we&apos;ve worked as executives, analysts, and financial journalists.
-                We quickly immerse ourselves in your competitive landscape for each client engagement.
-              </p>
-              <Link href="/contact" className="btn-primary">
-                Work With Us
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
-              </Link>
-            </div>
-
-            <div className="reveal-right">
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
-                {industries.map((ind, i) => (
-                  <span
-                    key={ind}
-                    className="reveal-scale"
-                    style={{ padding: "7px 15px", borderRadius: "100px", fontSize: "0.8rem", fontWeight: 600, background: i % 3 === 0 ? "rgba(14,165,198,0.12)" : i % 3 === 1 ? "rgba(8,127,158,0.08)" : "#f5f7f8", border: i % 3 === 0 ? "1px solid rgba(14,165,198,0.28)" : i % 3 === 1 ? "1px solid rgba(8,127,158,0.2)" : "1px solid rgba(18,52,63,0.1)", color: i % 3 === 0 ? "#0b7f9f" : "#3e5963" }}
-                  >
-                    {ind}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
+      <section className="section" style={{ background: "#ffffff", padding: 0 }}>
+        <OurHistorySection industries={industries} />
       </section>
 
       {/* ── Team ─────────────────────────────────────────────────────────── */}
