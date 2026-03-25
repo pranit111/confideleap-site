@@ -4,6 +4,7 @@ import siteData from "../../content/site.json";
 import TeamPhoto from "../../components/TeamPhoto";
 import { WhyChooseUsCards } from "../../components/WhyChooseUsCards";
 import OurHistorySection from "../../components/ui/stack-feature-section";
+import { RippleButton } from "../../components/ui/multi-type-ripple-buttons";
 
 export const metadata: Metadata = {
   title: "About Us | Best Investor Relations Advisory Firm | ConfideLeap",
@@ -77,6 +78,8 @@ const faqs = [
   },
 ];
 
+const darkRippleClass = "rounded-[10px] border border-[rgba(255,255,255,0.15)] bg-transparent font-semibold leading-[1.2]";
+
 export default function AboutPage() {
   return (
     <>
@@ -111,9 +114,11 @@ export default function AboutPage() {
               Talk to Our Experts
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
             </Link>
-            <Link href="/services" style={{ display: "inline-flex", alignItems: "center", gap: "8px", padding: "12px 24px", borderRadius: "10px", border: "1px solid rgba(255,255,255,0.15)", color: "rgba(200,235,242,0.8)", fontFamily: "Manrope, sans-serif", fontWeight: 600, fontSize: "0.95rem", textDecoration: "none", transition: "all 0.25s ease" }}>
-              Explore Services
-            </Link>
+            <RippleButton variant="hover" hoverRippleColor="rgba(14,165,198,0.35)" className={darkRippleClass}>
+              <Link href="/services" style={{ display: "flex", alignItems: "center", gap: "8px", color: "rgba(200,235,242,0.8)", textDecoration: "none", padding: "12px 24px" }}>
+                Explore Services
+              </Link>
+            </RippleButton>
           </div>
         </div>
       </section>
@@ -318,9 +323,11 @@ export default function AboutPage() {
               Get Started
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
             </Link>
-            <Link href="/services" style={{ display: "inline-flex", alignItems: "center", gap: "8px", padding: "13px 28px", borderRadius: "10px", border: "1px solid rgba(14,165,198,0.3)", color: "#9ee6f4", fontFamily: "Manrope, sans-serif", fontWeight: 600, fontSize: "0.95rem", textDecoration: "none", transition: "all 0.25s ease" }}>
-              Explore Services
-            </Link>
+            <RippleButton variant="hover" hoverRippleColor="rgba(14,165,198,0.35)" className={darkRippleClass}>
+              <Link href="/services" style={{ display: "flex", alignItems: "center", gap: "8px", color: "#9ee6f4", textDecoration: "none", padding: "13px 28px" }}>
+                Explore Services
+              </Link>
+            </RippleButton>
           </div>
         </div>
       </section>

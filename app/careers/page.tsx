@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import siteData from "../../content/site.json";
+import { RippleButton } from "../../components/ui/multi-type-ripple-buttons";
+
+const darkRippleClass = "rounded-[10px] border border-[rgba(255,255,255,0.15)] bg-transparent font-semibold leading-[1.2]";
 
 export const metadata: Metadata = {
   title: "Career – Join the ConfideLeap Team | ConfideLeap",
@@ -118,9 +121,11 @@ export default function CareersPage() {
               View Open Roles
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M5 12l7 7 7-7" /></svg>
             </a>
-            <a href={`mailto:${siteData.email}?subject=Career Inquiry – ConfideLeap`} style={{ display: "inline-flex", alignItems: "center", gap: "8px", padding: "12px 24px", borderRadius: "10px", border: "1px solid rgba(255,255,255,0.15)", color: "rgba(200,235,242,0.8)", fontFamily: "Manrope, sans-serif", fontWeight: 600, fontSize: "0.95rem", textDecoration: "none", transition: "all 0.25s ease" }}>
-              Send Open Application
-            </a>
+            <RippleButton variant="hover" hoverRippleColor="rgba(14,165,198,0.35)" className={darkRippleClass}>
+              <a href={`mailto:${siteData.email}?subject=Career Inquiry – ConfideLeap`} style={{ display: "flex", alignItems: "center", gap: "8px", color: "rgba(200,235,242,0.8)", textDecoration: "none", padding: "12px 24px" }}>
+                Send Open Application
+              </a>
+            </RippleButton>
           </div>
         </div>
       </section>
@@ -263,9 +268,11 @@ export default function CareersPage() {
                 <line x1="22" y1="2" x2="11" y2="13" /><polygon points="22 2 15 22 11 13 2 9 22 2" />
               </svg>
             </a>
-            <Link href="/contact" style={{ display: "inline-flex", alignItems: "center", gap: "8px", padding: "13px 28px", borderRadius: "10px", border: "1px solid rgba(255,255,255,0.15)", color: "rgba(200,235,242,0.8)", fontFamily: "Manrope, sans-serif", fontWeight: 600, fontSize: "0.95rem", textDecoration: "none", transition: "all 0.25s ease" }}>
-              Contact Us
-            </Link>
+            <RippleButton variant="hover" hoverRippleColor="rgba(14,165,198,0.35)" className={darkRippleClass}>
+              <Link href="/contact" style={{ display: "flex", alignItems: "center", gap: "8px", color: "rgba(200,235,242,0.8)", textDecoration: "none", padding: "13px 28px" }}>
+                Contact Us
+              </Link>
+            </RippleButton>
           </div>
         </div>
       </section>

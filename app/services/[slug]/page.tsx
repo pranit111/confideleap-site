@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getAllServices, getServiceBySlug } from "../../../lib/content";
+import { RippleButton } from "../../../components/ui/multi-type-ripple-buttons";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -208,9 +209,9 @@ export default async function ServiceDetailPage({ params }: Readonly<Props>) {
           {/* Feature bento grid */}
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(270px, 1fr))", gap: "16px" }}>
             {service.features.map((f, i) => (
-              <div
+                <div
                 key={f.title}
-                className={`bento-card reveal ${i === 0 ? "reveal-left" : ""}`}
+                  className={`bento-card reveal why-card-tilt ${i === 0 ? "reveal-left" : ""}`}
                 style={
                   i === 0
                     ? { background: `linear-gradient(135deg, ${m.hex} 0%, ${m.darkHex} 100%)`, borderColor: "transparent", color: "#ffffff" }
@@ -246,7 +247,7 @@ export default async function ServiceDetailPage({ params }: Readonly<Props>) {
               {service.highlights.map((h, i) => (
                 <div
                   key={h.title}
-                  className="callout-card reveal"
+                  className="callout-card reveal why-card-tilt"
                   style={{ background: `linear-gradient(145deg, rgba(${m.rgb},0.08) 0%, rgba(${m.rgb},0.03) 100%)`, border: `1px solid rgba(${m.rgb},0.18)` }}
                 >
                   <div style={{ fontFamily: "Outfit, sans-serif", fontWeight: 900, fontSize: "3rem", lineHeight: 1, color: m.hex, opacity: 0.2, marginBottom: "16px" }}>
@@ -280,7 +281,7 @@ export default async function ServiceDetailPage({ params }: Readonly<Props>) {
                 {investorExpertiseCards.map((card, i) => (
                   <div
                     key={card.title}
-                    className="bento-card reveal"
+                    className="bento-card reveal why-card-tilt"
                     style={i === 0 ? { gridColumn: "span 2", background: `linear-gradient(135deg, rgba(${m.rgb},0.07) 0%, rgba(${m.rgb},0.03) 100%)`, borderColor: `rgba(${m.rgb},0.2)` } : {}}
                   >
                     <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "12px" }}>
@@ -391,7 +392,7 @@ export default async function ServiceDetailPage({ params }: Readonly<Props>) {
               </div>
               <div className="reveal-right" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
                 {["Optimal Business Valuation", "Compliance Guidepost", "Issue & Crisis Management", "Investor Perception Analysis", "Expand Research & Coverage", "Facilitate Capital Raising"].map((item) => (
-                  <div key={item} style={{ padding: "16px", borderRadius: "12px", background: `rgba(${m.rgb},0.06)`, border: `1px solid rgba(${m.rgb},0.15)`, fontSize: "0.82rem", fontWeight: 600, color: "#3e5963", lineHeight: 1.4 }}>
+                  <div key={item} className="why-card-tilt" style={{ padding: "16px", borderRadius: "12px", background: `rgba(${m.rgb},0.06)`, border: `1px solid rgba(${m.rgb},0.15)`, fontSize: "0.82rem", fontWeight: 600, color: "#3e5963", lineHeight: 1.4 }}>
                     {item}
                   </div>
                 ))}
@@ -416,7 +417,7 @@ export default async function ServiceDetailPage({ params }: Readonly<Props>) {
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(270px, 1fr))", gap: "16px" }}>
               {dmWhyCards.map((card, i) => (
-                <div key={card.title} className="bento-card reveal">
+                    <div key={card.title} className="bento-card reveal why-card-tilt">
                   <div style={{ fontFamily: "Outfit, sans-serif", fontWeight: 900, fontSize: "2.8rem", lineHeight: 1, color: m.hex, opacity: 0.15, marginBottom: "14px" }}>
                     {String(i + 1).padStart(2, "0")}
                   </div>
@@ -445,7 +446,7 @@ export default async function ServiceDetailPage({ params }: Readonly<Props>) {
               </div>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: "16px" }}>
                 {prDifferentiators.map((card) => (
-                  <div key={card.title} className="bento-card reveal" style={{ border: `1px solid rgba(${m.rgb},0.18)` }}>
+                  <div key={card.title} className="bento-card reveal why-card-tilt" style={{ border: `1px solid rgba(${m.rgb},0.18)` }}>
                     <span style={{ display: "block", width: "10px", height: "10px", borderRadius: "50%", background: m.hex, marginBottom: "16px", boxShadow: `0 0 14px rgba(${m.rgb},0.5)` }} />
                     <h3 style={{ fontFamily: "Outfit, sans-serif", fontWeight: 700, fontSize: "1rem", marginBottom: "10px", color: "#0e2530" }}>{card.title}</h3>
                     <p style={{ fontSize: "0.875rem", lineHeight: 1.7, color: "#567079" }}>{card.description}</p>
@@ -465,7 +466,7 @@ export default async function ServiceDetailPage({ params }: Readonly<Props>) {
               </div>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: "16px", maxWidth: "920px", margin: "0 auto" }}>
                 {prBenefits.map((item, i) => (
-                  <div key={item.title} className="callout-card reveal" style={{ background: "#ffffff", border: `1px solid rgba(${m.rgb},0.14)` }}>
+                  <div key={item.title} className="callout-card reveal why-card-tilt" style={{ background: "#ffffff", border: `1px solid rgba(${m.rgb},0.14)` }}>
                     <div style={{ fontFamily: "Outfit, sans-serif", fontWeight: 900, fontSize: "3rem", lineHeight: 1, color: m.hex, opacity: 0.18, marginBottom: "14px" }}>
                       {String(i + 1).padStart(2, "0")}
                     </div>
@@ -496,7 +497,7 @@ export default async function ServiceDetailPage({ params }: Readonly<Props>) {
                 </div>
                 <div className="reveal-right" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
                   {arWhyCards.map((card) => (
-                    <div key={card.title} style={{ padding: "20px", borderRadius: "14px", background: `rgba(${m.rgb},0.06)`, border: `1px solid rgba(${m.rgb},0.15)` }}>
+                    <div key={card.title} className="why-card-tilt" style={{ padding: "20px", borderRadius: "14px", background: `rgba(${m.rgb},0.06)`, border: `1px solid rgba(${m.rgb},0.15)` }}>
                       <span style={{ display: "block", width: "8px", height: "8px", borderRadius: "50%", background: m.hex, marginBottom: "12px", boxShadow: `0 0 10px rgba(${m.rgb},0.5)` }} />
                       <h3 style={{ fontFamily: "Outfit, sans-serif", fontWeight: 700, fontSize: "0.9rem", marginBottom: "7px", color: "#0e2530" }}>{card.title}</h3>
                       <p style={{ fontSize: "0.82rem", lineHeight: 1.65, color: "#567079" }}>{card.description}</p>
@@ -519,7 +520,7 @@ export default async function ServiceDetailPage({ params }: Readonly<Props>) {
                 {arPortfolio.map((item) => (
                   <div
                     key={item}
-                    className="reveal-scale"
+                    className="reveal-scale why-card-tilt"
                     style={{ padding: "14px 24px", borderRadius: "12px", background: `linear-gradient(135deg, rgba(${m.rgb},0.1) 0%, rgba(${m.rgb},0.05) 100%)`, border: `1px solid rgba(${m.rgb},0.22)`, fontSize: "0.875rem", fontWeight: 600, color: "#2e4a54" }}
                   >
                     {item} — Annual Report
@@ -548,7 +549,7 @@ export default async function ServiceDetailPage({ params }: Readonly<Props>) {
                 </div>
                 <div className="reveal-right" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
                   {podcastBenefits.map((card, i) => (
-                    <div key={card.title} style={{ padding: "18px", borderRadius: "12px", background: `rgba(${m.rgb},0.06)`, border: `1px solid rgba(${m.rgb},0.14)` }}>
+                    <div key={card.title} className="why-card-tilt" style={{ padding: "18px", borderRadius: "12px", background: `rgba(${m.rgb},0.06)`, border: `1px solid rgba(${m.rgb},0.14)` }}>
                       <div style={{ fontFamily: "Outfit, sans-serif", fontWeight: 800, fontSize: "1.4rem", color: m.hex, opacity: 0.35, lineHeight: 1, marginBottom: "8px" }}>{String(i + 1).padStart(2, "0")}</div>
                       <h3 style={{ fontFamily: "Outfit, sans-serif", fontWeight: 700, fontSize: "0.88rem", marginBottom: "7px", color: "#0e2530" }}>{card.title}</h3>
                       <p style={{ fontSize: "0.8rem", lineHeight: 1.65, color: "#567079" }}>{card.description}</p>
@@ -569,7 +570,7 @@ export default async function ServiceDetailPage({ params }: Readonly<Props>) {
               </div>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: "16px" }}>
                 {podcastWhyCards.map((card, i) => (
-                  <div key={card.title} className="bento-card reveal" style={i === 0 ? { background: `linear-gradient(135deg, ${m.hex} 0%, ${m.darkHex} 100%)`, borderColor: "transparent" } : {}}>
+                  <div key={card.title} className="bento-card reveal why-card-tilt" style={i === 0 ? { background: `linear-gradient(135deg, ${m.hex} 0%, ${m.darkHex} 100%)`, borderColor: "transparent" } : {}}>
                     <span style={{ display: "block", width: "10px", height: "10px", borderRadius: "50%", background: i === 0 ? "rgba(255,255,255,0.6)" : m.hex, marginBottom: "16px", boxShadow: i === 0 ? "none" : `0 0 12px rgba(${m.rgb},0.5)` }} />
                     <h3 style={{ fontFamily: "Outfit, sans-serif", fontWeight: 700, fontSize: "1rem", marginBottom: "10px", color: i === 0 ? "#ffffff" : "#0e2530" }}>{card.title}</h3>
                     <p style={{ fontSize: "0.875rem", lineHeight: 1.7, color: i === 0 ? "rgba(255,255,255,0.85)" : "#567079" }}>{card.description}</p>
@@ -641,9 +642,11 @@ export default async function ServiceDetailPage({ params }: Readonly<Props>) {
               Contact Us
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
             </Link>
-            <Link href="/services" style={{ display: "inline-flex", alignItems: "center", gap: "8px", padding: "13px 28px", borderRadius: "10px", border: "1px solid rgba(255,255,255,0.15)", color: "rgba(200,235,242,0.8)", fontFamily: "Manrope, sans-serif", fontWeight: 600, fontSize: "0.95rem", transition: "all 0.25s ease", textDecoration: "none" }}>
-              View All Services
-            </Link>
+            <RippleButton variant="hover" hoverRippleColor="rgba(14,165,198,0.35)" className="rounded-[10px] border border-[rgba(255,255,255,0.15)] bg-transparent font-semibold leading-[1.2]">
+              <Link href="/services" style={{ display: "flex", alignItems: "center", gap: "8px", color: "rgba(200,235,242,0.8)", textDecoration: "none", padding: "13px 28px" }}>
+                View All Services
+              </Link>
+            </RippleButton>
           </div>
         </div>
       </section>

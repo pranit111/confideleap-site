@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getAllClients, getClientBySlug } from "../../../lib/content";
+import { RippleButton } from "../../../components/ui/multi-type-ripple-buttons";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -98,10 +99,12 @@ export default async function ClientDetailPage({ params }: Props) {
 
             {/* Website link */}
             {client.website && (
-              <a href={client.website} target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex", alignItems: "center", gap: "8px", padding: "10px 20px", borderRadius: "10px", border: "1px solid rgba(14,165,198,0.3)", color: "#0ea5c6", fontSize: "0.85rem", fontWeight: 600, textDecoration: "none", whiteSpace: "nowrap", flexShrink: 0 }}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-                Visit Website
-              </a>
+              <RippleButton variant="hover" hoverRippleColor="rgba(14,165,198,0.35)" className="rounded-[10px] border border-[rgba(14,165,198,0.3)] bg-transparent font-semibold leading-[1.2]">
+                <a href={client.website} target="_blank" rel="noopener noreferrer" style={{ display: "flex", alignItems: "center", gap: "8px", color: "#0ea5c6", textDecoration: "none", padding: "10px 20px", whiteSpace: "nowrap" }}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                  Visit Website
+                </a>
+              </RippleButton>
             )}
           </div>
         </div>
@@ -185,14 +188,12 @@ export default async function ClientDetailPage({ params }: Props) {
                           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                           View PDF
                         </a>
-                        <a
-                          href={`${doc.fileUrl}?dl=${encodeURIComponent(doc.title)}.pdf`}
-                          download
-                          style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: "7px", padding: "10px 16px", borderRadius: "10px", border: `1px solid rgba(${meta.rgb},0.3)`, color: meta.color, fontSize: "0.82rem", fontWeight: 700, textDecoration: "none" }}
-                        >
-                          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                          Download
-                        </a>
+                        <RippleButton variant="hover" hoverRippleColor="rgba(14,165,198,0.35)" className={`rounded-[10px] border border-[rgba(${meta.rgb},0.3)] bg-transparent font-semibold leading-[1.2] flex-1`}>
+                          <a href={`${doc.fileUrl}?dl=${encodeURIComponent(doc.title)}.pdf`} download style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "7px", color: meta.color, textDecoration: "none", padding: "10px 16px", fontSize: "0.82rem", width: "100%" }}>
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                            Download
+                          </a>
+                        </RippleButton>
                       </div>
                     </div>
                   </div>

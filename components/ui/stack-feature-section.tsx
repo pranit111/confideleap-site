@@ -2,6 +2,9 @@
 
 import Link from "next/link";
 import { FaChartLine } from "react-icons/fa";
+import { RippleButton } from "@/components/ui/multi-type-ripple-buttons";
+
+const whiteRippleClass = "rounded-full border border-[rgba(14,165,198,0.35)] bg-white text-[#0e5d74] text-[0.95rem] font-semibold leading-[1.2] shadow-[0_8px_24px_rgba(0,0,0,0.16)] transition-all duration-300 hover:-translate-y-0.5 hover:text-[#0a3f4f]";
 
 interface OurHistorySectionProps {
   industries: string[];
@@ -44,16 +47,14 @@ export default function OurHistorySection({ industries }: OurHistorySectionProps
           For two decades, we&apos;ve worked as executives, analysts, and financial journalists.
           We quickly immerse ourselves in your competitive landscape for each client engagement.
         </p>
-        <Link
-          href="/contact"
-          className="btn-primary"
-          style={{ display: "inline-flex", alignItems: "center", gap: "8px", alignSelf: "flex-start" }}
-        >
-          Work With Us
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M5 12h14M12 5l7 7-7 7" />
-          </svg>
-        </Link>
+        <RippleButton variant="hover" hoverRippleColor="#0ea5c6" className={`${whiteRippleClass} self-start`}>
+          <Link href="/contact" style={{ display: "flex", alignItems: "center", gap: "8px", textDecoration: "none", color: "inherit", padding: "10px 20px" }}>
+            Work With Us
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </Link>
+        </RippleButton>
       </div>
 
       {/* Right side: Orbit animation */}

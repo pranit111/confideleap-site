@@ -321,7 +321,7 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
     const cards = Array.from(
       useWindowScroll
         ? document.querySelectorAll<HTMLElement>('.scroll-stack-card')
-        : scroller.querySelectorAll('.scroll-stack-card')
+        : scroller.querySelectorAll<HTMLElement>('.scroll-stack-card')
     );
 
     cardsRef.current = cards;

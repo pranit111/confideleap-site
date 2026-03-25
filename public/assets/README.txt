@@ -5,7 +5,7 @@ Default logo file used by the site:
 
 Supported formats:
 - logo.jpeg
-- logo.jpg
+- logo.png
 - logo.png
 - logo.webp
 - logo.svg
@@ -13,7 +13,7 @@ Supported formats:
 Rendering fallback order:
 1. content/site.json -> logoPath
 2. /assets/logo.jpeg
-3. /assets/logo.jpg
+3. /assets/logo.png
 4. /assets/logo.png
 5. /assets/logo.webp
 6. /assets/logo.svg

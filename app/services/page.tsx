@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getAllServices } from "../../lib/content";
 import { GetStartedButton } from "../../components/ui/get-started-button";
+import { RippleButton } from "../../components/ui/multi-type-ripple-buttons";
+
+const darkRippleClass = "rounded-[10px] border border-[rgba(255,255,255,0.15)] bg-transparent font-semibold leading-[1.2]";
 
 export const metadata: Metadata = {
   title: "Services We Provide | ConfideLeap",
@@ -98,7 +101,7 @@ export default async function ServicesPage() {
             const iconPath = iconPaths[service.slug];
 
             return (
-              <article key={service.slug} className="svc-row reveal">
+              <article key={service.slug} className="svc-row reveal why-card-tilt">
                 {/* Left accent strip */}
                 <div
                   className="svc-row-accent"
@@ -199,9 +202,11 @@ export default async function ServicesPage() {
           </p>
           <div className="reveal" style={{ display: "flex", gap: "14px", justifyContent: "center", flexWrap: "wrap" }}>
             <GetStartedButton href="/contact" label="Talk to an Expert" />
-            <Link href="/about" style={{ display: "inline-flex", alignItems: "center", gap: "8px", padding: "13px 28px", borderRadius: "10px", border: "1px solid rgba(14,165,198,0.3)", color: "#9ee6f4", fontFamily: "Manrope, sans-serif", fontWeight: 600, fontSize: "0.95rem", transition: "all 0.25s ease", textDecoration: "none" }}>
-              Learn About Us
-            </Link>
+            <RippleButton variant="hover" hoverRippleColor="rgba(14,165,198,0.35)" className={darkRippleClass}>
+              <Link href="/about" style={{ display: "flex", alignItems: "center", gap: "8px", color: "#9ee6f4", textDecoration: "none", padding: "13px 28px" }}>
+                Learn About Us
+              </Link>
+            </RippleButton>
           </div>
         </div>
       </section>

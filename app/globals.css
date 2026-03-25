@@ -804,6 +804,26 @@ img, video {
   border-color: rgba(14, 165, 198, 0.32);
 }
 
+/* Why Choose Us style card interaction */
+.why-card-tilt {
+  transform-style: preserve-3d;
+  will-change: transform;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.25s ease;
+}
+
+.why-card-tilt:hover,
+.bento-card.why-card-tilt:hover,
+.callout-card.why-card-tilt:hover,
+.svc-row.why-card-tilt:hover {
+  transform: translateY(-4px) perspective(1000px) rotateX(2deg) rotateY(2deg) scale(1.02) !important;
+}
+
+.why-card-tilt:nth-child(even):hover,
+.bento-card.why-card-tilt:nth-child(even):hover,
+.callout-card.why-card-tilt:nth-child(even):hover,
+.svc-row.why-card-tilt:nth-child(even):hover {
+  transform: translateY(-4px) perspective(1000px) rotateX(2deg) rotateY(-2deg) scale(1.02) !important;
+}
 /* Service showcase card */
 .svc-row {
   position: relative;
@@ -934,6 +954,19 @@ textarea.form-input { resize: vertical; min-height: 130px; }
   .anim-fade-up, .anim-fade-scale, .anim-float, .anim-float-2,
   .anim-float-3, .anim-pulse, .anim-spin-slow, .anim-spin-slow-rev,
   .shimmer-text { animation: none !important; opacity: 1 !important; transform: none !important; }
+
+  .why-card-tilt,
+  .why-card-tilt:hover,
+  .why-card-tilt:nth-child(even):hover,
+  .bento-card.why-card-tilt:hover,
+  .callout-card.why-card-tilt:hover,
+  .svc-row.why-card-tilt:hover,
+  .bento-card.why-card-tilt:nth-child(even):hover,
+  .callout-card.why-card-tilt:nth-child(even):hover,
+  .svc-row.why-card-tilt:nth-child(even):hover {
+    transform: none !important;
+    transition: none !important;
+  }
 }
 
 .dark {

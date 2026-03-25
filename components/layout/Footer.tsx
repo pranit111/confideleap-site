@@ -18,7 +18,7 @@ export default function Footer() {
   const logoFallbacks = [
     siteData.logoPath,
     '/assets/logo.jpeg',
-    '/assets/logo.jpg',
+    '/assets/logo.png',
     '/assets/logo.png',
     '/assets/logo.webp',
     '/assets/logo.svg',

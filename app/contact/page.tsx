@@ -1,8 +1,10 @@
 'use client';
 
-import { useState } from "react";
-import Link from "next/link";
+import { type ChangeEvent, useState } from "react";
 import siteData from "../../content/site.json";
+import { RippleButton } from "../../components/ui/multi-type-ripple-buttons";
+
+const darkRippleClass = "rounded-[10px] border border-[rgba(255,255,255,0.15)] bg-transparent font-semibold leading-[1.2]";
 
 const socials = [
   { label: "LinkedIn",   href: "https://www.linkedin.com/company/confideleap-partners" },
@@ -51,13 +53,37 @@ const contactItems = [
 export default function ContactPage() {
   const [form, setForm] = useState({ name: "", email: "", phone: "", subject: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const set = (key: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+  const set = (key: keyof typeof form) => (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
     setForm((f) => ({ ...f, [key]: e.target.value }));
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitted(true);
+  const submitForm = async () => {
+    setSubmitting(true);
+    setErrorMessage(null);
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(form),
+      });
+
+      if (!response.ok) {
+        const data = (await response.json().catch(() => null)) as { error?: string } | null;
+        throw new Error(data?.error ?? "Unable to send your message right now. Please try again.");
+      }
+
+      setSubmitted(true);
+      setForm({ name: "", email: "", phone: "", subject: "", message: "" });
+    } catch (error) {
+      setErrorMessage(error instanceof Error ? error.message : "Something went wrong. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -151,10 +177,25 @@ export default function ContactPage() {
                   <p style={{ color: "#567079", lineHeight: 1.7, marginBottom: "28px" }}>
                     Thank you for reaching out. We&apos;ll get back to you within 24 hours.
                   </p>
-                  <button onClick={() => setSubmitted(false)} className="btn-outline" style={{ fontSize: "0.88rem" }}>Send Another Message</button>
+                  <button
+                    onClick={() => {
+                      setSubmitted(false);
+                      setErrorMessage(null);
+                    }}
+                    className="btn-outline"
+                    style={{ fontSize: "0.88rem" }}
+                  >
+                    Send Another Message
+                  </button>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    void submitForm();
+                  }}
+                  style={{ display: "flex", flexDirection: "column", gap: "20px" }}
+                >
                   <div style={{ marginBottom: "4px" }}>
                     <h2 style={{ fontFamily: "Outfit, sans-serif", fontWeight: 900, fontSize: "1.5rem", letterSpacing: "-0.02em", color: "#0e2530", marginBottom: "6px" }}>
                       Send us a message
@@ -192,8 +233,19 @@ export default function ContactPage() {
                     <textarea id="message" className="form-input" placeholder="Tell us about your business and how we can help..." required rows={5} value={form.message} onChange={set("message")} />
                   </div>
 
-                  <button type="submit" className="btn-primary" style={{ justifyContent: "center", padding: "15px", fontSize: "0.95rem" }}>
-                    Send Message
+                  {errorMessage ? (
+                    <p style={{ margin: 0, color: "#dc2626", fontSize: "0.85rem", fontWeight: 600 }}>
+                      {errorMessage}
+                    </p>
+                  ) : null}
+
+                  <button
+                    type="submit"
+                    className="btn-primary"
+                    style={{ justifyContent: "center", padding: "15px", fontSize: "0.95rem", opacity: submitting ? 0.7 : 1, cursor: submitting ? "not-allowed" : "pointer" }}
+                    disabled={submitting}
+                  >
+                    {submitting ? "Sending..." : "Send Message"}
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                       <line x1="22" y1="2" x2="11" y2="13" /><polygon points="22 2 15 22 11 13 2 9 22 2" />
                     </svg>
@@ -221,12 +273,14 @@ export default function ContactPage() {
               </svg>
               {siteData.phone}
             </a>
-            <a href={`mailto:${siteData.email}`} style={{ display: "inline-flex", alignItems: "center", gap: "10px", padding: "13px 24px", borderRadius: "10px", border: "1px solid rgba(14,165,198,0.3)", color: "#9ee6f4", fontFamily: "Manrope, sans-serif", fontWeight: 600, fontSize: "0.95rem", textDecoration: "none", transition: "all 0.25s ease" }}>
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" /><polyline points="22,6 12,13 2,6" />
-              </svg>
-              {siteData.email}
-            </a>
+            <RippleButton variant="hover" hoverRippleColor="rgba(14,165,198,0.35)" className={darkRippleClass}>
+              <a href={`mailto:${siteData.email}`} style={{ display: "flex", alignItems: "center", gap: "10px", color: "#9ee6f4", textDecoration: "none", padding: "13px 24px" }}>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" /><polyline points="22,6 12,13 2,6" />
+                </svg>
+                {siteData.email}
+              </a>
+            </RippleButton>
           </div>
         </div>
       </section>

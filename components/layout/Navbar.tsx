@@ -26,9 +26,9 @@ export default function Navbar() {
   const lastScrollY = useRef(0);
 
   const logoFallbacks = [
-    '/assets/logo-removebg-preview.png',
+    '/assets/logo.png',
     siteData.logoPath,
-    '/assets/logo.jpg',
+    '/assets/logo.png',
   ].filter((value): value is string => Boolean(value));
   const [logoIndex, setLogoIndex] = useState(0);
 
