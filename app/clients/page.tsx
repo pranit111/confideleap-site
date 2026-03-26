@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getAllClients } from "../../lib/content";
 import { RippleButton } from "../../components/ui/multi-type-ripple-buttons";
+import ClientsShowcase from "../../components/ClientsShowcase";
 
 const darkRippleClass = "rounded-[10px] border border-[rgba(14,165,198,0.3)] bg-transparent font-semibold leading-[1.2]";
 
@@ -10,22 +11,6 @@ export const metadata: Metadata = {
   description:
     "We work closely with every client as a true partner — supporting their growth, earning their trust, and sharing in their success. 18+ companies across diverse industries.",
 };
-
-const industryMeta: Record<string, { color: string; rgb: string }> = {
-  Chemicals:      { color: "#3b82f6", rgb: "59,130,246" },
-  Infrastructure: { color: "#8b5cf6", rgb: "139,92,246" },
-  Healthcare:     { color: "#10b981", rgb: "16,185,129" },
-  Manufacturing:  { color: "#f59e0b", rgb: "245,158,11" },
-  Aquaculture:    { color: "#06b6d4", rgb: "6,182,212" },
-  Environment:    { color: "#22c55e", rgb: "34,197,94" },
-  Energy:         { color: "#fbbf24", rgb: "251,191,36" },
-  "Oil & Gas":    { color: "#ef4444", rgb: "239,68,68" },
-  FMCG:           { color: "#a855f7", rgb: "168,85,247" },
-  Jewellery:      { color: "#f59e0b", rgb: "245,158,11" },
-  Fintech:        { color: "#0ea5c6", rgb: "14,165,198" },
-};
-
-const fallback = { color: "#0ea5c6", rgb: "14,165,198" };
 
 export default async function ClientsPage() {
   const clients = await getAllClients();
@@ -102,109 +87,8 @@ export default async function ClientsPage() {
         </div>
       </section>
 
-      {/* ── Industry Filter Pills ───────────────────────────────────────── */}
-      <section style={{ background: "#0b1e28", borderTop: "1px solid rgba(14,165,198,0.1)", borderBottom: "1px solid rgba(14,165,198,0.1)", padding: "24px 0" }}>
-        <div className="container">
-          <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", alignItems: "center" }}>
-            <span style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "rgba(180,215,228,0.4)", marginRight: "4px" }}>Industries</span>
-            {industries.map((ind) => {
-              const m = industryMeta[ind] ?? fallback;
-              return (
-                <span
-                  key={ind}
-                  style={{ padding: "5px 14px", borderRadius: "100px", fontSize: "0.75rem", fontWeight: 600, background: `rgba(${m.rgb},0.1)`, color: m.color, border: `1px solid rgba(${m.rgb},0.25)` }}
-                >
-                  {ind}
-                </span>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* ── Client Cards ───────────────────────────────────────────────── */}
-      <section className="section" style={{ background: "#f5f7f8" }}>
-        <div className="container">
-          <div
-            className="reveal"
-            style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(290px, 1fr))", gap: "20px" }}
-          >
-            {clients.map((client, i) => {
-              const m = industryMeta[client.industry] ?? fallback;
-              const isFirst = i === 0;
-              const hasDocuments = client.documents && client.documents.length > 0;
-              return (
-                <Link
-                  key={client.slug}
-                  href={`/clients/${client.slug}`}
-                  className="reveal"
-                  style={{
-                    display: "block",
-                    padding: "28px",
-                    borderRadius: "20px",
-                    background: isFirst ? `linear-gradient(135deg, #0e2530, #0b1e28)` : "#ffffff",
-                    border: `1px solid rgba(${m.rgb},${isFirst ? "0.3" : "0.15"})`,
-                    position: "relative",
-                    overflow: "hidden",
-                    transition: "transform 0.25s ease, box-shadow 0.25s ease",
-                    textDecoration: "none",
-                    cursor: "pointer",
-                  }}
-                >
-                  {/* Top accent bar */}
-                  <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "3px", background: `linear-gradient(90deg, ${m.color}, transparent)` }} />
-
-                  {/* Watermark initial */}
-                  <div
-                    aria-hidden
-                    style={{ position: "absolute", bottom: "-16px", right: "-12px", fontFamily: "Outfit, sans-serif", fontWeight: 900, fontSize: "6rem", color: isFirst ? `rgba(${m.rgb},0.06)` : `rgba(${m.rgb},0.05)`, lineHeight: 1, pointerEvents: "none", userSelect: "none" }}
-                  >
-                    {client.name.charAt(0)}
-                  </div>
-
-                  {/* Icon avatar */}
-                  <div
-                    style={{ width: "52px", height: "52px", borderRadius: "14px", background: `rgba(${m.rgb},${isFirst ? "0.2" : "0.1"})`, border: `1px solid rgba(${m.rgb},0.3)`, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "18px", fontFamily: "Outfit, sans-serif", fontWeight: 900, fontSize: "1.3rem", color: m.color }}
-                  >
-                    {client.name.charAt(0)}
-                  </div>
-
-                  {/* Industry badge */}
-                  <span
-                    style={{ display: "inline-block", fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.09em", color: m.color, background: `rgba(${m.rgb},${isFirst ? "0.15" : "0.08"})`, border: `1px solid rgba(${m.rgb},0.25)`, padding: "3px 10px", borderRadius: "100px", marginBottom: "12px" }}
-                  >
-                    {client.industry}
-                  </span>
-
-                  <h3
-                    style={{ fontFamily: "Outfit, sans-serif", fontWeight: 700, fontSize: "0.97rem", color: isFirst ? "#f0f8fa" : "#0e2530", marginBottom: "10px", lineHeight: 1.35 }}
-                  >
-                    {client.name}
-                  </h3>
-                  <p
-                    style={{ fontSize: "0.82rem", color: isFirst ? "rgba(180,215,228,0.65)" : "#567079", lineHeight: 1.7, marginBottom: "16px" }}
-                  >
-                    {client.description}
-                  </p>
-
-                  {/* Document count + view arrow */}
-                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                    {hasDocuments ? (
-                      <span style={{ display: "inline-flex", alignItems: "center", gap: "5px", fontSize: "0.72rem", fontWeight: 700, color: m.color, background: `rgba(${m.rgb},0.08)`, border: `1px solid rgba(${m.rgb},0.2)`, padding: "3px 10px", borderRadius: "100px" }}>
-                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                        {client.documents!.length} doc{client.documents!.length > 1 ? "s" : ""}
-                      </span>
-                    ) : (
-                      <span style={{ fontSize: "0.72rem", color: isFirst ? "rgba(180,215,228,0.35)" : "rgba(18,52,63,0.3)" }}>No documents</span>
-                    )}
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={isFirst ? "rgba(180,215,228,0.5)" : m.color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                  </div>
-                </Link>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+      {/* ── Clients Showcase (marquee + bento grid) ────────────────────── */}
+      <ClientsShowcase clients={clients} />
 
       {/* ── CTA ────────────────────────────────────────────────────────── */}
       <section

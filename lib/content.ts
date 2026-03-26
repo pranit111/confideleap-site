@@ -40,9 +40,14 @@ export interface Post {
   excerpt: string;
   featured: boolean;
   coverImage?: { asset: { _ref: string }; alt?: string };
+  coverImageUrl?: string | null;
   author?: string;
+  authorRole?: string | null;
+  authorPhoto?: string | null;
+  authorLinkedin?: string | null;
   tags?: string[];
   body?: unknown[];
+  seo?: { metaTitle?: string; metaDescription?: string; ogImage?: unknown };
 }
 
 export interface ServiceFeature {
@@ -94,6 +99,7 @@ const allPostsQuery = `
     "categoryColor": category->color,
     "categoryRgb": category->rgb,
     coverImage,
+    "coverImageUrl": coverImage.asset->url,
     "author": author->name,
     tags
   }
@@ -111,7 +117,11 @@ const postBySlugQuery = `
     "categoryColor": category->color,
     "categoryRgb": category->rgb,
     coverImage,
-    "author": author->{ name, photo, role },
+    "coverImageUrl": coverImage.asset->url,
+    "author": author->name,
+    "authorRole": author->role,
+    "authorPhoto": author->photo.asset->url,
+    "authorLinkedin": author->linkedin,
     tags,
     body,
     seo
@@ -173,4 +183,26 @@ export async function getClientBySlug(slug: string): Promise<Client | null> {
 export async function getClientsByIndustry(industry: string): Promise<Client[]> {
   const clients = await getAllClients();
   return clients.filter((c) => c.industry === industry);
+}
+
+// ─── Testimonials (Sanity) ────────────────────────────────────────────────────
+
+export interface Testimonial {
+  text: string;
+  name: string;
+  role: string;
+  image: string | null;
+}
+
+const allTestimonialsQuery = `
+  *[_type == "testimonial" && featured == true] | order(order asc) {
+    text,
+    name,
+    role,
+    "image": image.asset->url
+  }
+`
+
+export async function getTestimonials(): Promise<Testimonial[]> {
+  return sanityClient.fetch(allTestimonialsQuery, {}, { next: { revalidate: 60 } });
 }

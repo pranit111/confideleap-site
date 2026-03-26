@@ -5,12 +5,12 @@ import { FaFacebookF, FaInstagram, FaLinkedinIn, FaYoutube } from "react-icons/f
 import { FaXTwitter } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
 
-import { getAllServices, getFeaturedPosts, getAllClients } from "../lib/content";
+import { getAllServices, getFeaturedPosts, getAllClients, getTestimonials } from "../lib/content";
 import siteData from "../content/site.json";
 import { GetStartedButton } from "../components/ui/get-started-button";
 import { RippleButton } from "../components/ui/multi-type-ripple-buttons";
-import ScrollStack, { ScrollStackItem } from "../components/ScrollStack";
 import { ServiceCard } from "../components/ServiceCard";
+import { Testimonials } from "../components/Testimonials";
 
 export const metadata: Metadata = {
   title: "Top Investor Relations Advisor | ConfideLeap",
@@ -81,10 +81,11 @@ const whiteRippleButtonClass =
   "rounded-full border border-[rgba(14,165,198,0.35)] bg-white text-[#0e5d74] text-[0.95rem] font-semibold leading-[1.2] shadow-[0_8px_24px_rgba(0,0,0,0.16)] transition-all duration-300 hover:-translate-y-0.5 hover:text-[#0a3f4f]";
 
 export default async function HomePage() {
-  const [services, featuredPosts, clients] = await Promise.all([
+  const [services, featuredPosts, clients, testimonials] = await Promise.all([
     getAllServices(),
     getFeaturedPosts(),
     getAllClients(),
+    getTestimonials(),
   ]);
 
   return (
@@ -247,34 +248,31 @@ export default async function HomePage() {
             </p>
           </div>
           <div style={{ maxWidth: "1400px", margin: "0 auto", width: "100%", paddingLeft: "2rem", paddingRight: "2rem" }}>
-            <ScrollStack
-              className="what-we-do-stack"
-              itemDistance={120}
-              itemScale={0.03}
-              itemStackDistance={25}
-              stackPosition="25%"
-              scaleEndPosition="8%"
-              baseScale={0.88}
-              scaleDuration={0.5}
-              useWindowScroll
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+                gap: "24px",
+                alignItems: "stretch",
+              }}
             >
               {services.map((service) => {
                 const iconName = serviceIconBySlug[service.slug] ?? "trending-up";
                 const colors = serviceColorBySlug[service.slug] || serviceColorBySlug["investor-relations"];
+
                 return (
-                  <ScrollStackItem key={service.slug} itemClassName="what-we-do-stack-card">
-                    <ServiceCard
-                      slug={service.slug}
-                      title={service.title}
-                      subtitle={service.subtitle}
-                      description={service.description}
-                      iconName={iconName}
-                      colors={colors}
-                    />
-                  </ScrollStackItem>
+                  <ServiceCard
+                    key={service.slug}
+                    slug={service.slug}
+                    title={service.title}
+                    subtitle={service.subtitle}
+                    description={service.description}
+                    iconName={iconName}
+                    colors={colors}
+                  />
                 );
               })}
-            </ScrollStack>
+            </div>
           </div>
           <div style={{ marginTop: "28px", textAlign: "center" }}>
             <RippleButton variant="hover" hoverRippleColor="#0ea5c6" className={whiteRippleButtonClass}>
@@ -286,42 +284,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="section" style={{ background: "#051319" }}>
-        <div className="container">
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "54px", alignItems: "center" }}>
-            <div>
-              <div className="badge" style={{ marginBottom: "16px" }}>Why ConfideLeap</div>
-              <h2 style={{ fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)", fontWeight: 800, marginBottom: "20px", color: "#ffffff" }}>
-                Expert Partners in Investor Relations, Public Relations & <span className="gradient-text">Digital Growth</span>
-              </h2>
-              <p style={{ color: "#a8c5d1", lineHeight: 1.8, marginBottom: "32px" }}>
-                Great investor relations isn&apos;t just about reporting numbers — it&apos;s about crafting a compelling story, building lasting relationships, and positioning your company for long-term success.
-              </p>
-              <RippleButton variant="hover" hoverRippleColor="#0ea5c6" className={whiteRippleButtonClass}>
-                <Link href="/about" style={{ display: "flex", alignItems: "center", gap: "8px", textDecoration: "none", color: "inherit", padding: "10px 20px" }}>
-                  Learn More About Us
-                </Link>
-              </RippleButton>
-            </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-              {[
-                { title: "Investor Relations Advisory", desc: "Build trust with investors through strategic messaging and consistent disclosures." },
-                { title: "Public Relations Advisory", desc: "Strengthen media visibility and shape a credible, influential brand narrative." },
-                { title: "Digital Marketing Advisory", desc: "Translate your market story into measurable campaigns and digital momentum." },
-                { title: "Annual Report & Podcast Solutions", desc: "Deliver polished reports and audio content that improve communication depth." },
-              ].map((item) => (
-                <div key={item.title} className="card-hover-border" style={{ display: "flex", gap: "14px", alignItems: "flex-start", padding: "18px", borderRadius: "12px", background: "rgba(30, 70, 85, 0.3)", border: "1px solid rgba(14, 165, 198, 0.2)" }}>
-                  <span style={{ width: "9px", height: "9px", borderRadius: "999px", marginTop: "9px", background: "#11a9c7", flexShrink: 0 }} />
-                  <div>
-                    <h4 style={{ fontWeight: 700, marginBottom: "5px", fontSize: "0.98rem", color: "#ffffff" }}>{item.title}</h4>
-                    <p style={{ color: "#a8c5d1", fontSize: "0.88rem", lineHeight: 1.6 }}>{item.desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+      <Testimonials testimonials={testimonials} />
 
       <section className="section-sm" style={{ background: "#051319", overflow: "hidden" }}>
         <div className="container" style={{ textAlign: "center", marginBottom: "40px" }}>
@@ -354,7 +317,7 @@ export default async function HomePage() {
 
       <section className="section" style={{ background: "#0a1f2e" }}>
         <div className="container">
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "48px", flexWrap: "wrap", gap: "16px" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "40px", flexWrap: "wrap", gap: "16px" }}>
             <div>
               <div className="badge" style={{ marginBottom: "12px" }}>Latest Insights</div>
               <h2 style={{ fontSize: "clamp(1.6rem, 3vw, 2.4rem)", fontWeight: 800, color: "#ffffff" }}>From the <span className="gradient-text">ConfideLeap Blog</span></h2>
@@ -365,28 +328,61 @@ export default async function HomePage() {
               </Link>
             </RippleButton>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "24px" }}>
-            {featuredPosts.map((post) => (
-              <Link key={post.slug} href={`/blog/${post.slug}`} className="card-hover"
-                style={{ display: "flex", flexDirection: "column", background: "rgba(30, 70, 85, 0.3)", border: "1px solid rgba(14, 165, 198, 0.2)", borderRadius: "16px", overflow: "hidden", textDecoration: "none" }}
-              >
-                <div style={{ height: "4px", background: "var(--accent-gradient)" }} />
-                <div style={{ padding: "24px", flex: 1, display: "flex", flexDirection: "column" }}>
-                  <div style={{ marginBottom: "12px" }}>
-                    <span style={{ fontSize: "0.72rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", color: "#0ea5c6", background: "rgba(14,165,198,0.15)", padding: "4px 10px", borderRadius: "100px" }}>{post.categoryLabel}</span>
-                  </div>
-                  <h3 style={{ fontWeight: 700, fontSize: "1.05rem", lineHeight: 1.4, marginBottom: "12px", color: "#ffffff", flex: 1 }}>{post.title}</h3>
-                  <p style={{ color: "#8fa8b5", fontSize: "0.85rem", lineHeight: 1.65, marginBottom: "20px" }}>{post.excerpt.slice(0, 120)}...</p>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <span style={{ fontSize: "0.78rem", color: "#6b8995" }}>{new Date(post.date).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}</span>
-                    <span style={{ fontSize: "0.82rem", fontWeight: 600, color: "#0ea5c6", display: "flex", alignItems: "center", gap: "4px" }}>
-                      Read More <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+
+          <div className="blog-home-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "22px" }}>
+            {featuredPosts.slice(0, 3).map((post, i) => {
+              const fallbackBlogImages = [
+                "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=800&q=80",
+                "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=80",
+                "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=800&q=80",
+              ];
+              const imgUrl = post.coverImageUrl ?? fallbackBlogImages[i % 3];
+              const accentColor = post.categoryColor || "#0ea5c6";
+              const accentRgb = post.categoryRgb || "14,165,198";
+              return (
+                <Link key={post.slug} href={`/blog/${post.slug}`} className="card-hover"
+                  style={{ display: "flex", flexDirection: "column", background: "rgba(18, 45, 58, 0.6)", border: "1px solid rgba(14,165,198,0.15)", borderRadius: "18px", overflow: "hidden", textDecoration: "none" }}
+                >
+                  {/* Cover image */}
+                  <div style={{ height: "170px", overflow: "hidden", background: "#0a2030", position: "relative", flexShrink: 0 }}>
+                    <img src={imgUrl} alt={post.title} style={{ width: "100%", height: "100%", objectFit: "cover", opacity: 0.85 }} />
+                    <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent 50%, rgba(5,19,25,0.7))" }} />
+                    <span style={{ position: "absolute", bottom: "10px", left: "12px", fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "#fff", background: `rgba(${accentRgb},0.85)`, padding: "3px 10px", borderRadius: "100px", backdropFilter: "blur(4px)" }}>
+                      {post.categoryLabel}
                     </span>
                   </div>
-                </div>
-              </Link>
-            ))}
+
+                  {/* Content */}
+                  <div style={{ padding: "20px 22px 20px", flex: 1, display: "flex", flexDirection: "column" }}>
+                    <h3 style={{ fontWeight: 700, fontSize: "0.97rem", lineHeight: 1.45, marginBottom: "10px", color: "#f0f8fa", flex: 1 }}>
+                      {post.title}
+                    </h3>
+                    <p style={{ color: "#7a9fb0", fontSize: "0.82rem", lineHeight: 1.65, marginBottom: "16px", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
+                      {post.excerpt}
+                    </p>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingTop: "14px", borderTop: "1px solid rgba(14,165,198,0.12)" }}>
+                      <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
+                        <span style={{ fontSize: "0.75rem", fontWeight: 600, color: "#9ac5d2" }}>{post.author ?? "ConfideLeap Team"}</span>
+                        <span style={{ fontSize: "0.7rem", color: "#567079" }}>{new Date(post.date).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}</span>
+                      </div>
+                      <span style={{ fontSize: "0.8rem", fontWeight: 700, color: accentColor, display: "flex", alignItems: "center", gap: "4px" }}>
+                        Read <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+                      </span>
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
           </div>
+
+          <style>{`
+            @media (max-width: 900px) {
+              .blog-home-grid { grid-template-columns: repeat(2, 1fr) !important; }
+            }
+            @media (max-width: 600px) {
+              .blog-home-grid { grid-template-columns: 1fr !important; }
+            }
+          `}</style>
         </div>
       </section>
 

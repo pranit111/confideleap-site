@@ -48,30 +48,33 @@ export function ServiceCard({
         textDecoration: "none",
         background: colors.bg,
         border: `1.5px solid ${colors.border}`,
-        borderRadius: "inherit",
-        padding: "40px 35px",
+        borderRadius: "26px",
+        overflow: "hidden",
+        padding: "clamp(20px, 3.2vw, 34px)",
         transition: "all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)",
         cursor: "pointer",
+        boxShadow: "0 14px 34px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.12)",
       }}
       onMouseEnter={(e) => {
         (e.currentTarget as HTMLAnchorElement).style.transform =
-          "translateY(-8px)";
+          "translateY(-10px)";
         (e.currentTarget as HTMLAnchorElement).style.boxShadow =
-          "0 30px 60px rgba(0, 0, 0, 0.35)";
+          "0 34px 66px rgba(0, 0, 0, 0.36), inset 0 1px 0 rgba(255, 255, 255, 0.2)";
       }}
       onMouseLeave={(e) => {
         (e.currentTarget as HTMLAnchorElement).style.transform =
           "translateY(0)";
-        (e.currentTarget as HTMLAnchorElement).style.boxShadow = "";
+        (e.currentTarget as HTMLAnchorElement).style.boxShadow =
+          "0 14px 34px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.12)";
       }}
     >
       <div className="scroll-stack-card-inner">
         <div>
           <div
             style={{
-              width: "100px",
-              height: "100px",
-              borderRadius: "20px",
+              width: "clamp(62px, 10vw, 92px)",
+              height: "clamp(62px, 10vw, 92px)",
+              borderRadius: "24px",
               background: `rgba(255,255,255,0.15)`,
               backdropFilter: "blur(10px)",
               border: `1.5px solid ${colors.accentLight}`,
@@ -79,20 +82,20 @@ export function ServiceCard({
               display: "inline-flex",
               alignItems: "center",
               justifyContent: "center",
-              marginBottom: "28px",
+              marginBottom: "clamp(14px, 2.5vw, 24px)",
               boxShadow: `0 8px 20px rgba(0,0,0,0.15)`,
               transition: "all 0.3s ease",
             }}
           >
-            <Icon size={56} aria-hidden="true" />
+            <Icon size={44} aria-hidden="true" />
           </div>
           <h3
             style={{
               fontWeight: 700,
-              fontSize: "2.1rem",
-              marginBottom: "20px",
+              fontSize: "clamp(1.25rem, 2.6vw, 1.85rem)",
+              marginBottom: "clamp(8px, 1.8vw, 14px)",
               color: colors.text,
-              lineHeight: 1.3,
+              lineHeight: 1.25,
             }}
           >
             {title}
@@ -100,10 +103,13 @@ export function ServiceCard({
           <p
             style={{
               color: colors.accentLight,
-              fontSize: "1.25rem",
-              lineHeight: 1.7,
-              marginBottom: "24px",
+              fontSize: "clamp(0.92rem, 1.8vw, 1.05rem)",
+              lineHeight: 1.45,
+              marginBottom: "clamp(10px, 2vw, 14px)",
               fontWeight: 500,
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
             }}
           >
             {subtitle}
@@ -111,9 +117,13 @@ export function ServiceCard({
           <p
             style={{
               color: "rgba(255,255,255,0.85)",
-              fontSize: "1.05rem",
-              lineHeight: 1.7,
-              marginBottom: "24px",
+              fontSize: "clamp(0.86rem, 1.5vw, 0.98rem)",
+              lineHeight: 1.55,
+              marginBottom: "clamp(10px, 2vw, 14px)",
+              display: "-webkit-box",
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: "vertical",
+              overflow: "hidden",
             }}
           >
             {description}
@@ -128,7 +138,7 @@ export function ServiceCard({
         >
           <span
             style={{
-              fontSize: "0.82rem",
+              fontSize: "0.78rem",
               fontWeight: 600,
               color: colors.accentLight,
               display: "inline-flex",
